@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Burnout Prediction</title>
+    <style>
+        /* General page styling */
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #f3e5f5, #e1bee7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        /* Container for centering form and heading */
+        .container {
+            text-align: center;
+            width: 100%;
+            max-width: 500px;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+        
+        /* Form styling */
+        form {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            border: 2px solid #007bff;
+        }
+
+        /* Bold label styling */
+        label {
+            font-size: 14px;
+            color: #555;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        /* Styling for select boxes and inputs */
+        select, input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            background-color: #f8f9fa;
+            transition: border-color 0.3s ease, background-color 0.3s ease;
+        }
+
+        select:focus, input[type="text"]:focus {
+            outline: none;
+            border-color: #007bff;
+            background-color: #eaf4ff;
+        }
+        
+        /* Button styling */
+        button {
+            padding: 12px;
+            background-color: #007bff;
+            color: #fff;
+            font-size: 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+
+        /* Result styling */
+        h2 {
+            color: #333;
+            margin-top: 20px;
+            font-size: 1.5em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Employee Burnout Prediction</h1>
+        <form action="{{ url_for('predict') }}" method="post">
+            <label for="Gender">Gender</label>
+            <select name="Gender" id="Gender" required>
+                <option value="" disabled selected>Select Gender</option>
+                <option value="0">Male</option>
+                <option value="1">Female</option>
+            </select>
+
+            <label for="Company Type">Company Type</label>
+            <select name="Company Type" id="Company Type" required>
+                <option value="" disabled selected>Select Company Type</option>
+                <option value="0">Service</option>
+                <option value="1">Product</option>
+            </select>
+
+            <label for="WFH Setup Available">WFH Setup Available</label>
+            <select name="WFH Setup Available" id="WFH Setup Available" required>
+                <option value="" disabled selected>Select WFH Setup Availability</option>
+                <option value="0">Yes</option>
+                <option value="1">No</option>
+            </select>
+
+            <label for="Designation">Designation</label>
+            <input type="text" name="Designation" id="Designation" placeholder="Designation (0.0 - 5.0)" required />
+
+            <label for="Resource Allocation">Resource Allocation</label>
+            <input type="text" name="Resource Allocation" id="Resource Allocation" placeholder="Resource Allocation [1.0 - 10.0]" required />
+
+            <label for="Mental Fatigue Score">Mental Fatigue Score</label>
+            <input type="text" name="Mental Fatigue Score" id="Mental Fatigue Score" placeholder="Mental Fatigue Score [0.0 - 10.0]" required />
+
+            <label for="Tenure">Tenure</label>
+            <input type="text" name="Tenure" id="Tenure" placeholder="Tenure (years in company)" required />
+
+            <button type="submit">Predict</button>
+        </form>
+        {% if results %}
+            <h2>Burnout Risk: {{ results }}</h2>
+        {% endif %}
+    </div>
+</body>
+</html>
