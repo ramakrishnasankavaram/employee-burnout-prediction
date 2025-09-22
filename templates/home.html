@@ -152,12 +152,10 @@
         }
 
         .result.high-risk {
-            background: linear-gradient(135deg, #ee0979, #ff6a00);
+            background: linear-gradient(135deg, #dc143c, #b91c1c);
         }
 
-        .result.critical-risk {
-            background: linear-gradient(135deg, #8b0000, #dc143c);
-        }
+
 
         .result h2 {
             color: white;
@@ -252,8 +250,6 @@
                             <option value="0">Yes</option>
                             <option value="1">No</option>
                         </select>
-                    <div class="input-hint">WFH - Work From Home</div>
-
                     </div>
 
                     <div class="form-group">
@@ -296,49 +292,40 @@
 
             <button type="submit" class="submit-btn">Predict Burnout Risk</button>
         </form>
+        
         {% if results %}
         {% set results = results if results <= 1 else 1.00 %}
-            <div class="result {% if results <= 0.3 %}low-risk{% elif results <= 0.5 %}moderate-risk{% elif results <= 0.7 %}high-risk{% else %}critical-risk{% endif %}">
+            <div class="result {% if results <= 0.4 %}low-risk{% elif results <= 0.7 %}moderate-risk{% else %}high-risk{% endif %}">
                 <h2>Burnout Risk Score: {{ '%.2f'|format(results) }}</h2>
                 
-                {% if results <= 0.3 %}
-                    <div class="risk-level">✓ Low Risk</div>
+                {% if results <= 0.4 %}
+                    <div class="risk-level">✅ Low Risk</div>
                     <div class="risk-description">
-                        Great news! Your burnout risk is currently low. You appear to have a healthy work-life balance and manageable stress levels.
+                        Excellent! Your burnout risk is currently low. You appear to have a healthy work-life balance and manageable stress levels.
                     </div>
                     <div class="risk-recommendations">
                         <h4>💡 Keep It Up:</h4>
-                        <p>Continue maintaining your current habits. Regular breaks, healthy boundaries, and stress management are key to staying in this zone.</p>
-                    </div>
-                
-                {% elif results <= 0.5 %}
-                    <div class="risk-level">⚠️ Moderate Risk</div>
-                    <div class="risk-description">
-                        You're showing some signs of work-related stress. While not critical, it's worth paying attention to your well-being.
-                    </div>
-                    <div class="risk-recommendations">
-                        <h4>📋 Recommended Actions:</h4>
-                        <p>Consider reducing overtime, taking regular breaks, and discussing workload with your manager. Focus on stress management techniques.</p>
+                        <p>Continue maintaining your current habits. Regular breaks, healthy boundaries, and stress management practices are keeping you in the safe zone.</p>
                     </div>
                 
                 {% elif results <= 0.7 %}
-                    <div class="risk-level">🚨 High Risk</div>
+                    <div class="risk-level">⚠️ Moderate Risk</div>
                     <div class="risk-description">
-                        You're at high risk for burnout. This suggests significant work-related stress that needs immediate attention.
+                        You're showing signs of work-related stress. While manageable, it's important to take proactive steps to prevent escalation.
                     </div>
                     <div class="risk-recommendations">
-                        <h4>🚨 Urgent Actions Needed:</h4>
-                        <p>Speak with HR or your supervisor about workload. Consider professional support, take time off if possible, and prioritize self-care immediately.</p>
+                        <h4>📋 Recommended Actions:</h4>
+                        <p>Consider reducing overtime hours, take regular breaks, practice stress management techniques, and discuss workload concerns with your supervisor.</p>
                     </div>
                 
                 {% else %}
-                    <div class="risk-level">🛑 Critical Risk</div>
+                    <div class="risk-level">🚨 High Risk</div>
                     <div class="risk-description">
-                        Critical burnout risk detected. You may be experiencing severe work-related stress and exhaustion that requires immediate intervention.
+                        Warning! You're at high risk for burnout. This indicates significant work-related stress that requires immediate attention and intervention.
                     </div>
                     <div class="risk-recommendations">
-                        <h4>🆘 Immediate Action Required:</h4>
-                        <p>Seek professional help immediately. Consider medical leave, consult a healthcare provider, and reach out to employee assistance programs if available.</p>
+                        <h4>🆘 Urgent Action Required:</h4>
+                        <p>Speak immediately with HR or your manager about workload reduction. Consider taking time off, seek professional counseling, and prioritize your mental health.</p>
                     </div>
                 {% endif %}
             </div>
