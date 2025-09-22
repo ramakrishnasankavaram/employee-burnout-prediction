@@ -5,91 +5,217 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Employee Burnout Prediction</title>
     <style>
-        /* General page styling */
-        body {
-            font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #f3e5f5, #e1bee7);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
+        * {
             margin: 0;
-        }
-
-        /* Container for centering form and heading */
-        .container {
-            text-align: center;
-            width: 100%;
-            max-width: 500px;
-            padding: 20px;
+            padding: 0;
             box-sizing: border-box;
         }
 
-        h1 {
-            color: #333;
-            font-size: 2em;
-            margin-bottom: 20px;
-        }
-        
-        /* Form styling */
-        form {
-            background-color: #ffffff;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
             display: flex;
-            flex-direction: column;
-            gap: 15px;
-            border: 2px solid #007bff;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
         }
 
-        /* Bold label styling */
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            width: 100%;
+            max-width: 600px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            font-size: 2.5em;
+            font-weight: 700;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
         label {
             font-size: 14px;
-            color: #555;
-            font-weight: bold;
+            font-weight: 600;
+            color: #34495e;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
             margin-bottom: 5px;
         }
 
-        /* Styling for select boxes and inputs */
-        select, input[type="text"] {
+        select, input[type="text"], input[type="number"] {
             width: 100%;
-            padding: 10px;
-            border-radius: 4px;
-            border: 1px solid #ccc;
+            padding: 15px;
+            border: 2px solid #e1e8ed;
+            border-radius: 10px;
             font-size: 16px;
-            background-color: #f8f9fa;
-            transition: border-color 0.3s ease, background-color 0.3s ease;
-        }
-
-        select:focus, input[type="text"]:focus {
+            background-color: #ffffff;
+            color: #2c3e50;
+            transition: all 0.3s ease;
             outline: none;
-            border-color: #007bff;
-            background-color: #eaf4ff;
         }
-        
-        /* Button styling */
-        button {
-            padding: 12px;
-            background-color: #007bff;
-            color: #fff;
-            font-size: 16px;
-            border: none;
-            border-radius: 6px;
+
+        select:focus, input[type="text"]:focus, input[type="number"]:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            transform: translateY(-2px);
+        }
+
+        select:hover, input[type="text"]:hover, input[type="number"]:hover {
+            border-color: #a8b3cf;
+        }
+
+        select {
             cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 12px center;
+            background-repeat: no-repeat;
+            background-size: 16px;
         }
 
-        button:hover {
-            background-color: #0056b3;
-            transform: scale(1.05);
+        .submit-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
         }
 
-        /* Result styling */
-        h2 {
-            color: #333;
-            margin-top: 20px;
-            font-size: 1.5em;
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(102, 126, 234, 0.4);
+            background: linear-gradient(135deg, #5a6fd8, #6a42a0);
+        }
+
+        .submit-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .result {
+            margin-top: 30px;
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .result.low-risk {
+            background: linear-gradient(135deg, #56ab2f, #a8e6cf);
+        }
+
+        .result.moderate-risk {
+            background: linear-gradient(135deg, #f7971e, #ffd200);
+        }
+
+        .result.high-risk {
+            background: linear-gradient(135deg, #ee0979, #ff6a00);
+        }
+
+        .result.critical-risk {
+            background: linear-gradient(135deg, #8b0000, #dc143c);
+        }
+
+        .result h2 {
+            color: white;
+            font-size: 1.8em;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            margin-bottom: 10px;
+        }
+
+        .risk-level {
+            font-size: 1.4em;
+            font-weight: 600;
+            color: white;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .risk-description {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 15px;
+            border-radius: 8px;
+            color: white;
+            font-size: 16px;
+            line-height: 1.5;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .risk-recommendations {
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .risk-recommendations h4 {
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .risk-recommendations p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .input-hint {
+            font-size: 12px;
+            color: #7f8c8d;
+            font-style: italic;
+            margin-top: 4px;
         }
     </style>
 </head>
@@ -97,43 +223,123 @@
     <div class="container">
         <h1>Employee Burnout Prediction</h1>
         <form action="{{ url_for('predict') }}" method="post">
-            <label for="Gender">Gender</label>
-            <select name="Gender" id="Gender" required>
-                <option value="" disabled selected>Select Gender</option>
-                <option value="0">Male</option>
-                <option value="1">Female</option>
-            </select>
+            <div class="form-grid">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="Gender">Gender</label>
+                        <select name="Gender" id="Gender" required>
+                            <option value="" disabled selected>Select Gender</option>
+                            <option value="0">Male</option>
+                            <option value="1">Female</option>
+                        </select>
+                    </div>
 
-            <label for="Company Type">Company Type</label>
-            <select name="Company Type" id="Company Type" required>
-                <option value="" disabled selected>Select Company Type</option>
-                <option value="0">Service</option>
-                <option value="1">Product</option>
-            </select>
+                    <div class="form-group">
+                        <label for="Company Type">Company Type</label>
+                        <select name="Company Type" id="Company Type" required>
+                            <option value="" disabled selected>Select Company Type</option>
+                            <option value="0">Service</option>
+                            <option value="1">Product</option>
+                        </select>
+                    </div>
+                </div>
 
-            <label for="WFH Setup Available">WFH Setup Available</label>
-            <select name="WFH Setup Available" id="WFH Setup Available" required>
-                <option value="" disabled selected>Select WFH Setup Availability</option>
-                <option value="0">Yes</option>
-                <option value="1">No</option>
-            </select>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="WFH Setup Available">WFH Setup Available</label>
+                        <select name="WFH Setup Available" id="WFH Setup Available" required>
+                            <option value="" disabled selected>Select WFH Setup Availability</option>
+                            <option value="0">Yes</option>
+                            <option value="1">No</option>
+                        </select>
+                    </div>
 
-            <label for="Designation">Designation</label>
-            <input type="text" name="Designation" id="Designation" placeholder="Designation (0.0 - 5.0)" required />
+                    <div class="form-group">
+                        <label for="Designation">Designation</label>
+                        <select name="Designation" id="Designation" required>
+                            <option value="" disabled selected>Select Your Designation</option>
+                            <option value="0">Fresher</option>
+                            <option value="1">Level 1</option>
+                            <option value="2">Level 2</option>
+                            <option value="3">Level 3</option>
+                            <option value="4">Level 4</option>
+                            <option value="5">Experienced</option>
+                        </select>
+                    </div>
+                </div>
 
-            <label for="Resource Allocation">Resource Allocation</label>
-            <input type="text" name="Resource Allocation" id="Resource Allocation" placeholder="Resource Allocation [1.0 - 10.0]" required />
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="Resource Allocation">Daily Working Hours</label>
+                        <input type="number" name="Resource Allocation" id="Resource Allocation" 
+                               placeholder="8" min="1" max="24" step="0.5" required />
+                        <div class="input-hint">Enter hours per day (1-24)</div>
+                    </div>
 
-            <label for="Mental Fatigue Score">Mental Fatigue Score</label>
-            <input type="text" name="Mental Fatigue Score" id="Mental Fatigue Score" placeholder="Mental Fatigue Score [0.0 - 10.0]" required />
+                    <div class="form-group">
+                        <label for="Mental Fatigue Score">Mental Fatigue Score</label>
+                        <input type="number" name="Mental Fatigue Score" id="Mental Fatigue Score" 
+                               placeholder="5.0" min="0" max="10" step="0.1" required />
+                        <div class="input-hint">Rate from 0.0 to 10.0</div>
+                    </div>
+                </div>
 
-            <label for="Tenure">Tenure</label>
-            <input type="text" name="Tenure" id="Tenure" placeholder="Tenure (years in company)" required />
+                <div class="form-group">
+                    <label for="Tenure">Company Tenure</label>
+                    <input type="number" name="Tenure" id="Tenure" 
+                           placeholder="2.5" min="0" max="50" step="0.1" required />
+                    <div class="input-hint">Years with the company</div>
+                </div>
+            </div>
 
-            <button type="submit">Predict</button>
+            <button type="submit" class="submit-btn">Predict Burnout Risk</button>
         </form>
+        {% set results = results if results <= 1 else 1.00 %}
         {% if results %}
-            <h2>Burnout Risk: {{ results }}</h2>
+            <div class="result {% if results <= 0.3 %}low-risk{% elif results <= 0.5 %}moderate-risk{% elif results <= 0.7 %}high-risk{% else %}critical-risk{% endif %}">
+                <h2>Burnout Risk Score: {{ '%.2f'|format(results) }}</h2>
+                
+                {% if results <= 0.3 %}
+                    <div class="risk-level">✓ Low Risk</div>
+                    <div class="risk-description">
+                        Great news! Your burnout risk is currently low. You appear to have a healthy work-life balance and manageable stress levels.
+                    </div>
+                    <div class="risk-recommendations">
+                        <h4>💡 Keep It Up:</h4>
+                        <p>Continue maintaining your current habits. Regular breaks, healthy boundaries, and stress management are key to staying in this zone.</p>
+                    </div>
+                
+                {% elif results <= 0.5 %}
+                    <div class="risk-level">⚠️ Moderate Risk</div>
+                    <div class="risk-description">
+                        You're showing some signs of work-related stress. While not critical, it's worth paying attention to your well-being.
+                    </div>
+                    <div class="risk-recommendations">
+                        <h4>📋 Recommended Actions:</h4>
+                        <p>Consider reducing overtime, taking regular breaks, and discussing workload with your manager. Focus on stress management techniques.</p>
+                    </div>
+                
+                {% elif results <= 0.7 %}
+                    <div class="risk-level">🚨 High Risk</div>
+                    <div class="risk-description">
+                        You're at high risk for burnout. This suggests significant work-related stress that needs immediate attention.
+                    </div>
+                    <div class="risk-recommendations">
+                        <h4>🚨 Urgent Actions Needed:</h4>
+                        <p>Speak with HR or your supervisor about workload. Consider professional support, take time off if possible, and prioritize self-care immediately.</p>
+                    </div>
+                
+                {% else %}
+                    <div class="risk-level">🛑 Critical Risk</div>
+                    <div class="risk-description">
+                        Critical burnout risk detected. You may be experiencing severe work-related stress and exhaustion that requires immediate intervention.
+                    </div>
+                    <div class="risk-recommendations">
+                        <h4>🆘 Immediate Action Required:</h4>
+                        <p>Seek professional help immediately. Consider medical leave, consult a healthcare provider, and reach out to employee assistance programs if available.</p>
+                    </div>
+                {% endif %}
+            </div>
         {% endif %}
     </div>
 </body>
